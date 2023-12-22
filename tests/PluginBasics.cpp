@@ -8,12 +8,12 @@ TEST_CASE("one is equal to one", "[dummy]")
 }
 
 // https://github.com/McMartin/FRUT/issues/490#issuecomment-663544272
-PluginProcessor testPlugin;
+GateAudioProcessor testPlugin;
 
 TEST_CASE("Plugin instance name", "[name]")
 {
   CHECK_THAT(testPlugin.getName().toStdString(),
-             Catch::Matchers::Equals("Pamplejuce Demo"));
+             Catch::Matchers::Equals("Gate"));
 }
 
 #ifdef PAMPLEJUCE_IPP
