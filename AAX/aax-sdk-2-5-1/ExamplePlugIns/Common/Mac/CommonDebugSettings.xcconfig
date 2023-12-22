@@ -1,0 +1,26 @@
+// Common Xcode settings for Debug builds of AAX SDK example plug-in projects
+//
+// These example settings may be used as a basis for your own
+// custom project configuration settings.
+//
+// Coyright 2020-2021, 2023 Avid Technology, Inc.
+// All rights reserved.
+// 
+// CONFIDENTIAL: this document contains confidential information of Avid. Do
+// not disclose to any third party. Use of the information contained in this
+// document is subject to an Avid SDK license.
+
+
+#include "CommonSettings.xcconfig"
+
+GCC_PREPROCESSOR_DEFINITIONS = _DEBUG=1 "JUCE_ObjCExtraSuffix=$(PRODUCT_NAME)"
+COPY_PHASE_STRIP = NO
+
+GCC_GENERATE_DEBUGGING_SYMBOLS = YES
+GCC_OPTIMIZATION_LEVEL = 0
+GCC_INLINES_ARE_PRIVATE_EXTERN = YES
+
+PLUGIN_FILE_SPECIFIC_OPTIMIZATION_FLAGS = -O3
+
+CLANG_CXX_LIBRARY = libc++
+CLANG_CXX_LANGUAGE_STANDARD = c++0x

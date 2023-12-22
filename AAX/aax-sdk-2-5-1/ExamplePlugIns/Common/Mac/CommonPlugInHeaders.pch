@@ -1,0 +1,21 @@
+// Coyright 2023 Avid Technology, Inc.
+// All rights reserved.
+// 
+// CONFIDENTIAL: this document contains confidential information of Avid. Do
+// not disclose to any third party. Use of the information contained in this
+// document is subject to an Avid SDK license.
+
+#ifdef __OBJC__
+#import <Cocoa/Cocoa.h>
+#endif
+
+#define MAC_VERSION
+
+//#include "MacAlwaysInclude.h"
+
+//for 3rd parties
+//#define PLUGIN_SDK_NOMIDIALERT 1
+//#define ENABLE_CONSOLE_HACK 1
+//#define PLUGIN_SDK_BUILD 1
+
+

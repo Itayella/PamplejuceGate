@@ -44,7 +44,7 @@ include(JUCEDefaults)
 # and later `git submodule update --remote --merge` to keep it up to date
 # On Github Actions, this is done as a part of actions/checkout
 add_subdirectory(JUCE)
-juce_set_aax_sdk_path(/Users/itaye/Development/Libraries/aax-sdk-2-5-1)
+juce_set_aax_sdk_path(AAX/aax-sdk-2-5-1)
 
 # Add any other modules you want modules here, before the juce_add_plugin call
 # juce_add_module(modules/my_module)
