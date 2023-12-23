@@ -6,6 +6,9 @@ cmake_minimum_required(VERSION 3.24.1)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include (PamplejuceVersion)
 
+# Configures universal binaries in CI
+include(PamplejuceMacOS)
+
 # Change me!
 # This is the internal name of the project and the name of JUCE's shared code "target"
 # Note: This cannot have spaces (it may be 2023, but you can't have it all!)
@@ -32,9 +35,6 @@ set(FORMATS AU VST3 AAX)
 
 # For simplicity, the name of the CMake project is also the name of the target
 project(${PROJECT_NAME} VERSION ${CURRENT_VERSION})
-
-# Configures universal binaries in CI
-include(PamplejuceMacOS)
 
 # Couple tweaks that IMO should be JUCE defaults
 include(JUCEDefaults)
