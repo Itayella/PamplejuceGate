@@ -21,7 +21,7 @@ set(PROJECT_NAME "Gate")
 #   set(PROJECT_NAME "MyPlugin_v${MAJOR_VERSION}")
 # Doing so enables major versions to show up in IDEs and DAWs as separate plugins
 # allowing you to change parameters and behavior without breaking existing user projects
-set(PRODUCT_NAME "Gate_v${1.0.0}")
+set(PRODUCT_NAME "Gate_v")
 
 # Change me! Used for the MacOS bundle name and Installers
 set(COMPANY_NAME "ShizanaPlugins")
