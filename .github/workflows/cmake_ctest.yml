@@ -169,24 +169,62 @@ jobs:
         SetFile -a C "${{ env.VST3_PATH }}"
         SetFile -a C "${{ env.AU_PATH }}"
 
-    - name: Create DMG, Notarize and Staple (macOS)
-      if: ${{ matrix.name == 'macOS' }}
-      run: |
-        npm install -g appdmg
-        mkdir -p packaging/dmg
-        
-        # Create directories for the dmg symlinks
-        sudo mkdir -m 755 -p /Library/Audio/Plug-Ins/Components && sudo mkdir -m 755 -p /Library/Audio/Plug-Ins/VST3
-        ln -s /Library/Audio/Plug-Ins/Components "packaging/dmg/Your Mac's Component folder"
-        ln -s /Library/Audio/Plug-Ins/VST3 "packaging/dmg/Your Mac's VST3 folder"
-        mv "${{ env.ARTIFACTS_PATH }}/VST3/${{ env.PRODUCT_NAME }}.vst3" packaging/dmg
-        mv "${{ env.ARTIFACTS_PATH }}/AU/${{ env.PRODUCT_NAME }}.component" packaging/dmg
-        
-        # Run appdmg to create the .dmg
-        cd packaging && appdmg dmg.json "${{ env.ARTIFACT_NAME}}.dmg"
-        codesign -s "${{ secrets.DEVELOPER_ID_APPLICATION}}" --timestamp -i ${{ env.BUNDLE_ID }} --force "${{ env.ARTIFACT_NAME }}.dmg"
-        xcrun notarytool submit "${{ env.ARTIFACT_NAME }}.dmg" --apple-id ${{ secrets.NOTARIZATION_USERNAME }} --password ${{ secrets.NOTARIZATION_PASSWORD }} --team-id ${{ secrets.TEAM_ID }} --wait
-        xcrun stapler staple "${{ env.ARTIFACT_NAME }}.dmg"
+     build_installer_mac:
+      name: 📦 🍎 Build, sign and notarize installer for macOS
+      runs-on: macos-10.15
+      if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
+      needs: build_plugin
+      steps:
+        - name: Download macOS build artefacts from previous job
+          uses: actions/download-artifact@v2
+          with: 
+            name: plugin-build-output-mac
+
+        - name: Download macOS installer files
+          uses: actions/download-artifact@v2
+          with: 
+            name: plugin-installer-files-mac
+
+        - name: Cleanup installer files
+          uses: geekyeggo/delete-artifact@v1
+          with:
+            name: plugin-installer-files-mac
+            
+        - name: Download Packages installer build tool
+          run: wget http://s.sudre.free.fr/Software/files/Packages.dmg
+
+        - name: Mount Packages image
+          run: hdiutil attach Packages.dmg
+
+        - name: Install Packages
+          run: sudo installer -pkg /Volumes/Packages\ 1.2.9/Install\ Packages.pkg -target /
+
+        - name: Build installer
+          run: packagesbuild Schrammel\ plugin.pkgproj
+
+        - name: Setup temporary keychain and add installer signing certificate
+          uses: apple-actions/import-codesign-certs@v1
+          with: 
+            p12-file-base64: ${{ secrets.DEV_ID_INSTALL_CERT }}
+            p12-password: ${{ secrets.DEV_ID_INSTALL_PASSWORD }}
+
+        - name: Create folder for signed installer
+          run: mkdir plugin-installer-signed
+
+        - name: Sign installer
+          run: productsign -s "${{ secrets.APPLE_DEVELOPER_ID_INSTALLER }}" plugin-installer/Schrammel\ plugin.pkg plugin-installer-signed/Install\ plugin.pkg
+          
+        - name: Notarize installer
+          run: npx notarize-cli --file plugin-installer-signed/Install\ plugin.pkg --bundle-id io.schrammel.pkg --username ${{ secrets.NOTARIZATION_USERNAME }} --password ${{ secrets.NOTARIZATION_PASSWORD }}
+
+        - name: Create DMG
+          run: hdiutil create Install\ plugin.dmg -fs HFS+ -srcfolder plugin-installer-signed -format UDZO -volname Install\ plugin
+
+        - name: Upload DMG
+          uses: actions/upload-artifact@v2.2.1
+          with:
+            name: plugin-installer-mac
+            path: Install\ plugin.dmg
 
     - name: Zip
       if: ${{ matrix.name == 'Linux' }}
