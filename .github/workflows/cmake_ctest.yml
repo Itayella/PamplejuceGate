@@ -169,24 +169,63 @@ jobs:
         SetFile -a C "${{ env.VST3_PATH }}"
         SetFile -a C "${{ env.AU_PATH }}"
 
-    - name: Create DMG, Notarize and Staple (macOS)
-      if: ${{ matrix.name == 'macOS' }}
-      run: |
-        npm install -g appdmg
-        mkdir -p packaging/dmg
-        
-        # Create directories for the dmg symlinks
-        sudo mkdir -m 755 -p /Library/Audio/Plug-Ins/Components && sudo mkdir -m 755 -p /Library/Audio/Plug-Ins/VST3
-        ln -s /Library/Audio/Plug-Ins/Components "packaging/dmg/Your Mac's Component folder"
-        ln -s /Library/Audio/Plug-Ins/VST3 "packaging/dmg/Your Mac's VST3 folder"
-        mv "${{ env.ARTIFACTS_PATH }}/VST3/${{ env.PRODUCT_NAME }}.vst3" packaging/dmg
-        mv "${{ env.ARTIFACTS_PATH }}/AU/${{ env.PRODUCT_NAME }}.component" packaging/dmg
+    - name: Download Packages installer build tool
+      run: wget http://s.sudre.free.fr/Software/files/Packages.dmg
+
+    - name: Mount Packages image
+      run: hdiutil attach Packages.dmg
+
+    - name: Install Packages
+      run: sudo installer -pkg /Volumes/Packages\ 1.2.10/Install\ Packages.pkg -target /
+
+    - name: Install npm packages
+      run: npm install -g git+https://github.com/jatinchowdhury18/notarize-cli
+
+    - name: Install putty
+      run: brew install putty
+
+    - name: Setup temporary keychain and add installer signing certificate
+      uses: apple-actions/import-codesign-certs@v1
+      with:
+        keychain-password: ${{ secrets.DEV_ID_APP_PASSWORD }}
+        p12-file-base64: ${{ secrets.DEVELOPER_ID_APPLICATION }}
+        p12-password: ${{ secrets.DEV_ID_APP_PASSWORD }}
+
+    - name: Setup temporary keychain and add installer signing certificate
+      uses: apple-actions/import-codesign-certs@v1
+      with:
+        keychain-password: ${{ secrets.DEV_ID_APP_PASSWORD }}
+        p12-file-base64: ${{ secrets.DEV_ID_INSTALL_CERT }}
+        p12-password: ${{ secrets.DEV_ID_APP_PASSWORD }}
+        create-keychain: 'false'
+
+    - name: Setup Products directory
+      run: mkdir products
+
+    - name: Build Plugin
+      run: bash packaging/Pkg/MakeInstaller.sh
+      env:
+        TEAM_ID: ${{ secrets.TEAM_ID }}
+        INSTALLER_PASS: ${{ secrets.DEV_ID_APP_PASSWORD }}
+
+ #   - name: Create DMG, Notarize and Staple (macOS)
+  #    if: ${{ matrix.name == 'macOS' }}
+   #   run: |
+    #    npm install -g appdmg
+     #   mkdir -p packaging/dmg
+      #  
+       # # Create directories for the dmg symlinks
+        #sudo mkdir -m 755 -p /Library/Audio/Plug-Ins/Components && sudo mkdir -m 755 -p /Library/Audio/Plug-Ins/VST3
+#        #ln -s /Library/Audio/Plug-Ins/Components "packaging/dmg/Your Mac's Component folder"
+ #       ln -s /Library/Audio/Plug-Ins/VST3 "packaging/dmg/Your Mac's VST3 folder"
+  #      mv "${{ env.ARTIFACTS_PATH }}/VST3/${{ env.PRODUCT_NAME }}.vst3" packaging/dmg
+   #     mv "${{ env.ARTIFACTS_PATH }}/AU/${{ env.PRODUCT_NAME }}.component" packaging/dmg
         
         # Run appdmg to create the .dmg
-        cd packaging && appdmg dmg.json "${{ env.ARTIFACT_NAME}}.dmg"
-        codesign -s "${{ secrets.DEVELOPER_ID_APPLICATION}}" --timestamp -i ${{ env.BUNDLE_ID }} --force "${{ env.ARTIFACT_NAME }}.dmg"
-        xcrun notarytool submit "${{ env.ARTIFACT_NAME }}.dmg" --apple-id ${{ secrets.NOTARIZATION_USERNAME }} --password ${{ secrets.NOTARIZATION_PASSWORD }} --team-id ${{ secrets.TEAM_ID }} --wait
-        xcrun stapler staple "${{ env.ARTIFACT_NAME }}.dmg"
+#        cd packaging && appdmg dmg.json "${{ env.ARTIFACT_NAME}}.dmg"
+ #       codesign -s "${{ secrets.DEVELOPER_ID_APPLICATION}}" --timestamp -i ${{ env.BUNDLE_ID }} --force "${{ env.ARTIFACT_NAME }}.dmg"
+  #      xcrun notarytool submit "${{ env.ARTIFACT_NAME }}.dmg" --apple-id ${{ secrets.NOTARIZATION_USERNAME }} --password ${{ secrets.NOTARIZATION_PASSWORD }} --team-id ${{ secrets.TEAM_ID }} --wait
+   #     xcrun stapler staple "${{ env.ARTIFACT_NAME }}.dmg"
 
     - name: Zip
       if: ${{ matrix.name == 'Linux' }}
