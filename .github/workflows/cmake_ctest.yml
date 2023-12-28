@@ -180,7 +180,7 @@ jobs:
         pkgbuild --identifier "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" --root ${PATH_TO_VST3} --install-location /Library/Audio/Plug-Ins/VST3 "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
         pkgbuild --identifier "com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg" --root ${PATH_TO_AU} --install-location /Library/Audio/Plug-Ins/Components "com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg"
         productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --resources ./Signed/Res/ --package-path "./Signed/" "${PRODUCT_NAME}.pkg"
-        productsign --sign "${{ secrets.Team_ID }}" "${PRODUCT_NAME}.pkg" "packaging/Pkg/Signed/${PRODUCT_NAME}.pkg"
+        productsign --sign "${TEAM_ID}" "${PRODUCT_NAME}.pkg" "packaging/Pkg/Signed/${PRODUCT_NAME}.pkg"
 
 
     - name: sign installers
