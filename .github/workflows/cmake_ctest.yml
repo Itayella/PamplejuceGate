@@ -173,7 +173,6 @@ jobs:
       if: ${{ matrix.name == 'macOS' }}
       shell: bash
       run: |
-        ls -la Gate_artefacts/Release/VST3/
         PRODUCT_NAME="${{ env.PRODUCT_NAME }}"
         TEAM_ID="${{ secrets.Team_ID }}"
         PATH_TO_VST3="${{ env.VST3_PATH }}"
