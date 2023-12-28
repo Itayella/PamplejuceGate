@@ -41,7 +41,6 @@ jobs:
            # ccache: sccache
 
     steps:
-
     # This is just easier than debugging different compilers on different platforms
     - name: Set up Clang
       if: ${{ matrix.name != 'macOS' }}
@@ -169,22 +168,8 @@ jobs:
         SetFile -a C "${{ env.VST3_PATH }}"
         SetFile -a C "${{ env.AU_PATH }}"
 #--------------------#--------------------#--------PKG------------#--------------------#--------------------#--------------------
-    - name: Download Packages installer build tool
-      if: ${{ matrix.name == 'macOS' }}
-      run: wget http://s.sudre.free.fr/Software/files/Packages.dmg
 
-    - name: Mount Packages image
-      if: ${{ matrix.name == 'macOS' }}    
-      run: hdiutil attach Packages.dmg
-
-    - name: Install Packages
-      if: ${{ matrix.name == 'macOS' }}
-      run: sudo installer -pkg /Volumes/Packages\ 1.2.9/Install\ Packages.pkg -target
-
-    - name: Build installer
-      if: ${{ matrix.name == 'macOS' }}
-      run: packagesbuild Schrammel\ OJD.pkgpr
-
+   
     - name: Setup temporary keychain and add installer signing certificate
       if: ${{ matrix.name == 'macOS' }}
       uses: apple-actions/import-codesign-certs@v1
@@ -192,20 +177,32 @@ jobs:
         p12-file-base64: ${{ secrets.DEV_ID_INSTALL_CERT }}
         p12-password: ${{ secrets.DEV_ID_INSTALL_PASSWORD }}
 
+    - name: Create Pkg installers and sign
+      if: ${{ matrix.name == 'macOS' }}
+      shell: bash
+      run: pkgbuild --identifier "com.safaripedals.${{ env.PRODUCT_NAME }}.vst3.pkg" --root VST3 --install-location /Library/Audio/Plug-Ins/VST3 "com.safaripedals.${{ env.PRODUCT_NAME }}.vst3.pkg"
+      pkgbuild --identifier "com.safaripedals.${{ env.PRODUCT_NAME }}.component.pkg" --root AU --install-location /Library/Audio/Plug-Ins/Components "com.safaripedals.${{ env.PRODUCT_NAME }}.component.pkg"
+      productbuild --distribution "./Signed/distribution.xml" --resources ./Signed/Res/ --package-path "./Signed/" "${{ env.PRODUCT_NAME }}.pkg"
+      productsign --sign "${{ secrets.Team_ID }}" "${{ env.PRODUCT_NAME }}.pkg" "./Signed/${{ env.PRODUCT_NAME }}.pkg"
+
+    - name: sign installers
+      if: ${{ matrix.name == 'macOS' }}
+      shell: bash
+      run: productsign --sign "${{secrets.Team_ID}}" "com.safaripedals.${NAME2}.vst3.pkg" "signed/com.safaripedals.${NAME2}.vst3.pkg"
+      productsign --sign ${{secrets.Team_ID}}" "com.safaripedals.${{ env.PRODUCT_NAME }}.component.pkg" "signed/com.safaripedals.${{ env.PRODUCT_NAME }}.component.pkg" 
+      productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --resources ./Signed/Res/ --package-path "./Signed/" "${{ env.PRODUCT_NAME }}_Installer.pkg"
+      productsign --sign "${{secrets.Team_ID}}" "${{ env.PRODUCT_NAME }}_Installer.pkg" "./Signed/${{ env.PRODUCT_NAME }}_Installer.pkg"  
+
+#--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
     - name: Create folder for signed installer
       if: ${{ matrix.name == 'macOS' }}
       run: mkdir ${{ env.PRODUCT_NAME }}-installer-signed
 
-    - name: Sign installer
+   
+    - name: Notarize and staple installer
       if: ${{ matrix.name == 'macOS' }}
-      run: productsign -s "${{ secrets.APPLE_DEVELOPER_ID_INSTALLER }}" ${{ env.PRODUCT_NAME }}-installer\ ${{ env.PRODUCT_NAME }}.pkg ${{ env.PRODUCT_NAME }}-installer-signed/Install\ ${{ env.PRODUCT_NAME }}.pkg        
-
-    - name: Notarize installer
-      if: ${{ matrix.name == 'macOS' }}
-      run: npx notarize-cli --file build/${{ env.PRODUCT_NAME }}.dmg \
-                 --bundle-id com.ShizanaPlugins.${{ env.PRODUCT_NAME }} \
-                 --username ${{ secrets.NOTARIZATION_USERNAME }} \
-                 --password ${{ secrets.NOTARIZATION_PASSWORD }}
+      run: xcrun notarytool submit "packaging/Pkg/Signed/${{ env.PRODUCT_NAME }}_Installer.pkg" ${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD}}" --team-id "${{ secrets.TEAM_ID}}" --wait 
+      xcrun stapler staple "packaging/Pkg/Signed/${{ env.PRODUCT_NAME }}.pkg"
      
 
     - name: Create DMG

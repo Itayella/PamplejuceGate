@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <installer-gui-script minSpecVersion="1">
-    <title>LadyBug Reverb</title>
+    <title>Gate</title>
 	 <options customize="always" require-scripts="false" hostArchitectures="x86_64,arm64"/>
 
     <choices-outline>
-	<line choice="com.safaripedals.LadyBugReverb.vst3.pkg"/>
-	<line choice="com.safaripedals.LadyBugReverb.component.pkg"/>
-	<line choice="com.safaripedals.LadyBugReverb.aax.pkg"/>
+	<line choice="com.safaripedals.Gate.vst3.pkg"/>
+	<line choice="com.safaripedals.Gate.component.pkg"/>
+	<line choice="com.safaripedals.Gate.aax.pkg"/>
     </choices-outline>
      
-    <choice id="com.safaripedals.LadyBugReverb.vst3.pkg" visible="1" title="VST3" description="VST3">
-       <pkg-ref id="com.safaripedals.LadyBugReverb.vst3.pkg"/>
+    <choice id="com.safaripedals.Gate.vst3.pkg" visible="1" title="VST3" description="VST3">
+       <pkg-ref id="com.safaripedals.Gate.vst3.pkg"/>
     </choice>
-    <pkg-ref id="com.safaripedals.LadyBugReverb.vst3.pkg" version="1.1.7" onConclusion="none">com.safaripedals.LadyBugReverb.vst3.pkg</pkg-ref>
+    <pkg-ref id="com.safaripedals.Gate.vst3.pkg" version="1.1.7" onConclusion="none">com.safaripedals.Gate.vst3.pkg</pkg-ref>
 	
-    <choice id="com.safaripedals.LadyBugReverb.component.pkg" visible="1" title="AU" description="AU">
-       <pkg-ref id="com.safaripedals.LadyBugReverb.component.pkg"/>
+    <choice id="com.safaripedals.Gate.component.pkg" visible="1" title="AU" description="AU">
+       <pkg-ref id="com.safaripedals.Gate.component.pkg"/>
     </choice>
-    <pkg-ref id="com.safaripedals.LadyBugReverb.component.pkg" version="1.1.7" onConclusion="none">com.safaripedals.LadyBugReverb.component.pkg</pkg-ref>
+    <pkg-ref id="com.safaripedals.Gate.component.pkg" version="1.1.7" onConclusion="none">com.safaripedals.Gate.component.pkg</pkg-ref>
 	
-    <choice id="com.safaripedals.LadyBugReverb.aax.pkg" visible="1" title="AAX" description="AAX">
-       <pkg-ref id="com.safaripedals.LadyBugReverb.aax.pkg"/>
+    <choice id="com.safaripedals.Gate.aax.pkg" visible="1" title="AAX" description="AAX">
+       <pkg-ref id="com.safaripedals.Gate.aax.pkg"/>
     </choice>
-    <pkg-ref id="com.safaripedals.LadyBugReverb.aax.pkg" version="1.1.7" onConclusion="none">com.safaripedals.LadyBugReverb.aax.pkg</pkg-ref>
+    <pkg-ref id="com.safaripedals.Gate.aax.pkg" version="1.1.7" onConclusion="none">com.safaripedals.Gate.aax.pkg</pkg-ref>
 	      
 	<readme file="Readme.txt"/>
 	<license file="License.txt"/>
