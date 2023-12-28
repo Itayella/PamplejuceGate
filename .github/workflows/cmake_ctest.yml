@@ -177,8 +177,8 @@ jobs:
         TEAM_ID="${{ secrets.Team_ID }}"
         PATH_TO_VST3="${{ env.VST3_PATH }}"
         PATH_TO_AU="${{ env.AU_PATH }}"
-        pkgbuild --identifier "com.safaripedals.${PRODUCT_NAME}.vst3.pkg" --root ${PATH_TO_VST3} --install-location /Library/Audio/Plug-Ins/VST3 "com.safaripedals.${PRODUCT_NAME}.vst3.pkg"
-        pkgbuild --identifier "com.safaripedals.${PRODUCT_NAME}.component.pkg" --root ${PATH_TO_AU} --install-location /Library/Audio/Plug-Ins/Components "com.safaripedals.${PRODUCT_NAME}.component.pkg"
+        pkgbuild --identifier "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" --root ${PATH_TO_VST3} --install-location /Library/Audio/Plug-Ins/VST3 "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
+        pkgbuild --identifier "com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg" --root ${PATH_TO_AU} --install-location /Library/Audio/Plug-Ins/Components "com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg"
         productbuild --distribution "./Signed/distribution.xml" --resources ./Signed/Res/ --package-path "./Signed/" "${PRODUCT_NAME}.pkg"
         productsign --sign "${TEAM_ID}" "${PRODUCT_NAME}.pkg" "./Signed/${PRODUCT_NAME}.pkg"
 
@@ -187,8 +187,8 @@ jobs:
       if: ${{ matrix.name == 'macOS' }}
       shell: bash
       run: |
-        productsign --sign "${{secrets.Team_ID}}" "com.safaripedals.${NAME2}.vst3.pkg" "signed/com.safaripedals.${NAME2}.vst3.pkg"
-        productsign --sign ${{secrets.Team_ID}}" "com.safaripedals.${{ env.PRODUCT_NAME }}.component.pkg" "signed/com.safaripedals.${{ env.PRODUCT_NAME }}.component.pkg" 
+        productsign --sign "${{secrets.Team_ID}}" "com.ShizanaPlugins.${NAME2}.vst3.pkg" "signed/com.ShizanaPlugins.${NAME2}.vst3.pkg"
+        productsign --sign ${{secrets.Team_ID}}" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "signed/com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" 
         productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --resources ./Signed/Res/ --package-path "./Signed/" "${{ env.PRODUCT_NAME }}_Installer.pkg"
         productsign --sign "${{secrets.Team_ID}}" "${{ env.PRODUCT_NAME }}_Installer.pkg" "./Signed/${{ env.PRODUCT_NAME }}_Installer.pkg"  
 
