@@ -206,8 +206,13 @@ jobs:
    
     - name: Notarize and staple installer
       if: ${{ matrix.name == 'macOS' }}
-      run: xcrun notarytool submit "packaging/Pkg/Signed/${{ env.PRODUCT_NAME }}_Installer.pkg" ${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD}}" --team-id "${{ secrets.TEAM_ID}}" --wait 
-      xcrun stapler staple "packaging/Pkg/Signed/${{ env.PRODUCT_NAME }}.pkg"
+      run: |
+        PRODUCT_NAME="${{ env.PRODUCT_NAME }}"
+        TEAM_ID="${{ secrets.Team_ID }}"
+        NOTARIZATION_USERNAME="${{ secrets.NOTARIZATION_USERNAME }}"
+        NOTARIZATION_PASSWORD="${{ secrets.NOTARIZATION_PASSWORD}}"
+        xcrun notarytool submit "packaging/Pkg/Signed/${PRODUCT_NAME}_Installer.pkg" ${NOTARIZATION_USERNAME}" --password "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
+        xcrun stapler staple "packaging/Pkg/Signed/${PRODUCT_NAME}.pkg"
      
 
     - name: Create DMG
