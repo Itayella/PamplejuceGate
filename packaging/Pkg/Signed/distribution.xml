@@ -4,25 +4,25 @@
 	 <options customize="always" require-scripts="false" hostArchitectures="x86_64,arm64"/>
 
     <choices-outline>
-	<line choice="com.safaripedals.Gate.vst3.pkg"/>
-	<line choice="com.safaripedals.Gate.component.pkg"/>
-	<line choice="com.safaripedals.Gate.aax.pkg"/>
+	<line choice="com.ShizanaPlugins.Gate.vst3.pkg"/>
+	<line choice="com.ShizanaPlugins.Gate.component.pkg"/>
+	<line choice="com.ShizanaPlugins.Gate.aax.pkg"/>
     </choices-outline>
      
-    <choice id="com.safaripedals.Gate.vst3.pkg" visible="1" title="VST3" description="VST3">
-       <pkg-ref id="com.safaripedals.Gate.vst3.pkg"/>
+    <choice id="com.ShizanaPlugins.Gate.vst3.pkg" visible="1" title="VST3" description="VST3">
+       <pkg-ref id="com.ShizanaPlugins.Gate.vst3.pkg"/>
     </choice>
-    <pkg-ref id="com.safaripedals.Gate.vst3.pkg" version="1.1.7" onConclusion="none">com.safaripedals.Gate.vst3.pkg</pkg-ref>
+    <pkg-ref id="com.ShizanaPlugins.Gate.vst3.pkg" version="1.1.7" onConclusion="none">com.ShizanaPlugins.Gate.vst3.pkg</pkg-ref>
 	
-    <choice id="com.safaripedals.Gate.component.pkg" visible="1" title="AU" description="AU">
-       <pkg-ref id="com.safaripedals.Gate.component.pkg"/>
+    <choice id="com.ShizanaPlugins.Gate.component.pkg" visible="1" title="AU" description="AU">
+       <pkg-ref id="com.ShizanaPlugins.Gate.component.pkg"/>
     </choice>
-    <pkg-ref id="com.safaripedals.Gate.component.pkg" version="1.1.7" onConclusion="none">com.safaripedals.Gate.component.pkg</pkg-ref>
+    <pkg-ref id="com.ShizanaPlugins.Gate.component.pkg" version="1.1.7" onConclusion="none">com.ShizanaPlugins.Gate.component.pkg</pkg-ref>
 	
-    <choice id="com.safaripedals.Gate.aax.pkg" visible="1" title="AAX" description="AAX">
-       <pkg-ref id="com.safaripedals.Gate.aax.pkg"/>
+    <choice id="com.ShizanaPlugins.Gate.aax.pkg" visible="1" title="AAX" description="AAX">
+       <pkg-ref id="com.ShizanaPlugins.Gate.aax.pkg"/>
     </choice>
-    <pkg-ref id="com.safaripedals.Gate.aax.pkg" version="1.1.7" onConclusion="none">com.safaripedals.Gate.aax.pkg</pkg-ref>
+    <pkg-ref id="com.ShizanaPlugins.Gate.aax.pkg" version="1.1.7" onConclusion="none">com.ShizanaPlugins.Gate.aax.pkg</pkg-ref>
 	      
 	<readme file="Readme.txt"/>
 	<license file="License.txt"/>
