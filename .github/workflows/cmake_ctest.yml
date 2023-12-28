@@ -175,8 +175,10 @@ jobs:
       run: |
         PRODUCT_NAME="${{ env.PRODUCT_NAME }}"
         TEAM_ID="${{ secrets.Team_ID }}"
-        pkgbuild --identifier "com.safaripedals.${PRODUCT_NAME}.vst3.pkg" --root VST3 --install-location /Library/Audio/Plug-Ins/VST3 "com.safaripedals.${PRODUCT_NAME}.vst3.pkg"
-        pkgbuild --identifier "com.safaripedals.${PRODUCT_NAME}.component.pkg" --root AU --install-location /Library/Audio/Plug-Ins/Components "com.safaripedals.${PRODUCT_NAME}.component.pkg"
+        PATH_TO_VST3="${{ env.VST3_PATH }}"
+        PATH_TO_AU="${{ env.AU_PATH }}"
+        pkgbuild --identifier "com.safaripedals.${PRODUCT_NAME}.vst3.pkg" --root ${PATH_TO_VST3} --install-location /Library/Audio/Plug-Ins/VST3 "com.safaripedals.${PRODUCT_NAME}.vst3.pkg"
+        pkgbuild --identifier "com.safaripedals.${PRODUCT_NAME}.component.pkg" --root ${PATH_TO_AU} --install-location /Library/Audio/Plug-Ins/Components "com.safaripedals.${PRODUCT_NAME}.component.pkg"
         productbuild --distribution "./Signed/distribution.xml" --resources ./Signed/Res/ --package-path "./Signed/" "${PRODUCT_NAME}.pkg"
         productsign --sign "${TEAM_ID}" "${PRODUCT_NAME}.pkg" "./Signed/${PRODUCT_NAME}.pkg"
 
