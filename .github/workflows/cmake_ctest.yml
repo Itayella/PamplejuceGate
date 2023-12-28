@@ -180,10 +180,13 @@ jobs:
     - name: Create Pkg installers and sign
       if: ${{ matrix.name == 'macOS' }}
       shell: bash
-      run: pkgbuild --identifier "com.safaripedals.${{ env.PRODUCT_NAME }}.vst3.pkg" --root VST3 --install-location /Library/Audio/Plug-Ins/VST3 "com.safaripedals.${{ env.PRODUCT_NAME }}.vst3.pkg"
-      pkgbuild --identifier "com.safaripedals.${{ env.PRODUCT_NAME }}.component.pkg" --root AU --install-location /Library/Audio/Plug-Ins/Components "com.safaripedals.${{ env.PRODUCT_NAME }}.component.pkg"
-      productbuild --distribution "./Signed/distribution.xml" --resources ./Signed/Res/ --package-path "./Signed/" "${{ env.PRODUCT_NAME }}.pkg"
-      productsign --sign "${{ secrets.Team_ID }}" "${{ env.PRODUCT_NAME }}.pkg" "./Signed/${{ env.PRODUCT_NAME }}.pkg"
+      run: PRODUCT_NAME="${{ env.PRODUCT_NAME }}"
+      TEAM_ID="${{ secrets.Team_ID }}"   
+      pkgbuild --identifier "com.safaripedals.${PRODUCT_NAME}.vst3.pkg" --root VST3 --install-location /Library/Audio/Plug-Ins/VST3 "com.safaripedals.${PRODUCT_NAME}.vst3.pkg"
+      pkgbuild --identifier "com.safaripedals.${PRODUCT_NAME}.component.pkg" --root AU --install-location /Library/Audio/Plug-Ins/Components "com.safaripedals.${PRODUCT_NAME}.component.pkg"
+      productbuild --distribution "./Signed/distribution.xml" --resources ./Signed/Res/ --package-path "./Signed/" "${PRODUCT_NAME}.pkg"
+      productsign --sign "${TEAM_ID}" "${PRODUCT_NAME}.pkg" "./Signed/${PRODUCT_NAME}.pkg"
+
 
     - name: sign installers
       if: ${{ matrix.name == 'macOS' }}
