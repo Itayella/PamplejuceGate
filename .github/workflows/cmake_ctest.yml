@@ -103,8 +103,8 @@ jobs:
       uses: apple-actions/import-codesign-certs@v2 # only exists as a tag right now
       if: ${{ matrix.name == 'macOS' }}
       with:
-        p12-file-base64: ${{ secrets.DEV_ID_APP_CERT }}
-        p12-password: ${{ secrets.DEV_ID_APP_PASSWORD }}
+        p12-file-base64: ${{ secrets.DEV_ID_INSTALL_CERT }}
+        p12-password: ${{ secrets.DEV_ID_INSTALL_PASSWORD }}
 
     - name: Configure
       shell: bash
