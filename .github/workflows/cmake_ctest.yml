@@ -184,7 +184,7 @@ jobs:
         productsign --sign "${{secrets.Team_ID}}" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "Signed/com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" 
         productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --package-path "Signed/" "${PRODUCT_NAME}_not_noterized.pkg"
         productsign --sign ${{ secrets.Team_ID }} ${PRODUCT_NAME}_not_noterized.pkg ${PRODUCT_NAME}.pkg
-#        productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --resources /Signed --package-path "${PRODUCT_NAME}.pkg"
+#        productbuild --distribution "path to distribution.xml instructions" --resources <path to single installers(no quotes)> --package-path "Name of product.pkg"
 
 #--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
     - name: Create folder for signed installer
@@ -199,8 +199,8 @@ jobs:
         TEAM_ID="${{ secrets.Team_ID }}"
         NOTARIZATION_USERNAME="${{ secrets.NOTARIZATION_USERNAME }}"
         NOTARIZATION_PASSWORD="${{ secrets.NOTARIZATION_PASSWORD}}"
-        xcrun notarytool submit "packaging/Pkg/Signed/${PRODUCT_NAME}_Installer.pkg" ${NOTARIZATION_USERNAME}" --password "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
-        xcrun stapler staple "packaging/Pkg/Signed/${PRODUCT_NAME}.pkg"
+        xcrun notarytool submit "${PRODUCT_NAME}.pkg" ${NOTARIZATION_USERNAME}" --password "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
+        xcrun stapler staple "${PRODUCT_NAME}.pkg"
      
 
     - name: Create DMG
