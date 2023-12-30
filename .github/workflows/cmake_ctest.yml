@@ -201,9 +201,8 @@ jobs:
         xcrun notarytool store-credentials "notarytool-password"
                --apple-id "itay.ella@gmail.com"            
                --password ${{ secrets.NOTARIZATION_PASSWORD }}
-               --team-id "${{ secrets.Team_ID }}" --wait
-        KeychainProfile 
-        xcrun notarytool submit "${PRODUCT_NAME}.pkg" --keychain-profile "KeychainProfile" --wait
+               --team-id "${{ secrets.Team_ID }}" 
+        xcrun notarytool submit "${PRODUCT_NAME}.pkg" --keychain-profile "notarytool-password" --wait
         xcrun stapler staple "${PRODUCT_NAME}.pkg"
         
 #xcrun notarytool submit "${PRODUCT_NAME}.pkg" -u "${NOTARIZATION_USERNAME}" --p "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
