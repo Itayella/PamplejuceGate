@@ -179,8 +179,8 @@ jobs:
         PATH_TO_AU="Builds/${{ env.AU_PATH }}"
         pkgbuild --identifier "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" --root ${PATH_TO_VST3} --install-location /Library/Audio/Plug-Ins/VST3 "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
         pkgbuild --identifier "com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg" --root ${PATH_TO_AU} --install-location /Library/Audio/Plug-Ins/Components "com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg"
-        productsign --sign "${{secrets.Team_ID}}" "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" "signed/com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
-        productsign --sign ${{secrets.Team_ID}}" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "signed/com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" 
+        productsign --sign "${{secrets.Team_ID}}" "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
+        productsign --sign ${{secrets.Team_ID}}" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" 
         productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --resources ./Signed/Res/ --package-path "./Signed/" "${PRODUCT_NAME}.pkg"
         productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER }}" "${PRODUCT_NAME}.pkg" "packaging/Pkg/Signed/${PRODUCT_NAME}.pkg"
 
