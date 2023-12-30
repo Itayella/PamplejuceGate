@@ -147,8 +147,8 @@ jobs:
       if: ${{ matrix.name == 'macOS' }}
       run: |
         # Each plugin must be code signed
-        codesign --force -s "${{ secrets.DEVELOPER_ID_INSTALLER}}" -v "${{ env.VST3_PATH }}" --deep --strict --options=runtime --timestamp
-        codesign --force -s "${{ secrets.DEVELOPER_ID_APPLICATION}}" -v "${{ env.AU_PATH }}" --deep --strict --options=runtime --timestamp
+        codesign --force -s "${{ secrets.DEVELOPER_ID_INSTALLER }}" -v "${{ env.VST3_PATH }}" --deep --strict --options=runtime --timestamp
+        codesign --force -s "${{ secrets.DEVELOPER_ID_APPLICATION }}" -v "${{ env.AU_PATH }}" --deep --strict --options=runtime --timestamp
 
   #  - name: Add Custom Icons (macOS)
 #      if: ${{ matrix.name == 'macOS' }}
@@ -175,7 +175,6 @@ jobs:
       run: |
         PRODUCT_NAME="${{ env.PRODUCT_NAME }}"
         TEAM_ID="${{ secrets.Team_ID }}"
-        INSTALLER_ID=${{ secrets.DEVELOPER_ID_INSTALLER }}
         PATH_TO_VST3="Builds/${{ env.VST3_PATH }}"
         PATH_TO_AU="Builds/${{ env.AU_PATH }}"
         pkgbuild --identifier "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" --root ${PATH_TO_VST3} --install-location /Library/Audio/Plug-Ins/VST3 "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
@@ -183,7 +182,7 @@ jobs:
         productsign --sign "${{secrets.Team_ID}}" "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" "signed/com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
         productsign --sign ${{secrets.Team_ID}}" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "signed/com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" 
         productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --resources ./Signed/Res/ --package-path "./Signed/" "${PRODUCT_NAME}.pkg"
-        productsign --sign "${INSTALLER_ID}" "${PRODUCT_NAME}.pkg" "packaging/Pkg/Signed/${PRODUCT_NAME}.pkg"
+        productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER }}" "${PRODUCT_NAME}.pkg" "packaging/Pkg/Signed/${PRODUCT_NAME}.pkg"
 
 #--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
     - name: Create folder for signed installer
