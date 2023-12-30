@@ -196,14 +196,14 @@ jobs:
       if: ${{ matrix.name == 'macOS' }}
       run: |
         PRODUCT_NAME="${{ env.PRODUCT_NAME }}"
-        TEAM_ID="${{ secrets.Team_ID }}"
         USER_ID="${{ secrets.NOTARIZATION_USERNAME }}"
         NOTARIZATION_USERNAME="${{ secrets.NOTARIZATION_USERNAME }}"
         xcrun notarytool store-credentials "notarytool-password"
-               --apple-id "${NOTARIZATION_USERNAME}"
-               --team-id "${TEAM_ID}"
+               --apple-id "itay.ella@gmail.com"            
                --password ${{ secrets.NOTARIZATION_PASSWORD }}
-        xcrun notarytool submit "${PRODUCT_NAME}.pkg" --keychain-profile "${NOTARIZATION_USERNAME}" --wait
+               --team-id "${{ secrets.Team_ID }}"
+        KeychainProfile #create a Keychain Profile       
+        xcrun notarytool submit "${PRODUCT_NAME}.pkg" --keychain-profile "KeychainProfile" --wait
         xcrun stapler staple "${PRODUCT_NAME}.pkg"
         
 #xcrun notarytool submit "${PRODUCT_NAME}.pkg" -u "${NOTARIZATION_USERNAME}" --p "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
@@ -281,3 +281,13 @@ jobs:
           */*.exe
           */*.zip
           */*.dmg
+          */*.pkg
+
+    - name: Upload to gdrive
+        uses: mathisve/gdrive-upload-action@main
+        with:
+          filename: archive.zip
+          name: documentation.zip
+          folderId: ${{ secrets.folderId }}
+          credentials: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          encoded: false
