@@ -183,7 +183,7 @@ jobs:
         productsign --sign ${{ secrets.Team_ID }} "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" "Signed/com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
         productsign --sign ${{ secrets.Team_ID }} "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "Signed/com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" 
         productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --package-path "Signed/" "${PRODUCT_NAME}_not_noterized.pkg"
-        productsign --sign ${{ secrets.Team_ID }} ${PRODUCT_NAME}_not_noterized.pkg ${PRODUCT_NAME}.pkg
+        productsign --sign ${{ secrets.Team_ID }} "${PRODUCT_NAME}_not_noterized.pkg" "${PRODUCT_NAME}.pkg"
 #        productbuild --distribution "path to distribution.xml instructions" --resources <path to single installers(no quotes)> --package-path "Name of product.pkg"
 
 #--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
