@@ -281,12 +281,3 @@ jobs:
           */*.zip
           */*.dmg
           */*.pkg
-
-    - name: Upload to gdrive
-        uses: mathisve/gdrive-upload-action@main
-        with:
-          filename: archive.zip
-          name: documentation.zip
-          folderId: ${{ secrets.folderId }}
-          credentials: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
-          encoded: false
