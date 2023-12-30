@@ -199,11 +199,10 @@ jobs:
         TEAM_ID="${{ secrets.Team_ID }}"
         USER_ID="${{ secrets.NOTARIZATION_USERNAME }}"
         NOTARIZATION_USERNAME="${{ secrets.NOTARIZATION_USERNAME }}"
-        NOTARIZATION_PASSWORD="${{ secrets.NOTARIZATION_PASSWORD }}"
         xcrun notarytool store-credentials "notarytool-password"
                --apple-id "${NOTARIZATION_USERNAME}"
                --team-id "${TEAM_ID}"
-               --password "${NOTARIZATION_PASSWORD}"
+               --password ${{ secrets.NOTARIZATION_PASSWORD }}
         xcrun notarytool submit "${PRODUCT_NAME}.pkg" --keychain-profile "${NOTARIZATION_USERNAME}" --wait
         xcrun stapler staple "${PRODUCT_NAME}.pkg"
         
