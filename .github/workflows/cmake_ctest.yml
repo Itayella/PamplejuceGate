@@ -198,8 +198,8 @@ jobs:
         PRODUCT_NAME="${{ env.PRODUCT_NAME }}"
         TEAM_ID="${{ secrets.Team_ID }}"
         NOTARIZATION_USERNAME="${{ secrets.NOTARIZATION_USERNAME }}"
-        NOTARIZATION_PASSWORD="${{ secrets.NOTARIZATION_PASSWORD}}"
-        xcrun notarytool submit "${PRODUCT_NAME}.pkg" ${NOTARIZATION_USERNAME}" --password "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
+        NOTARIZATION_PASSWORD="${{ secrets.NOTARIZATION_PASSWORD }}"
+        xcrun notarytool submit "${PRODUCT_NAME}.pkg" "${NOTARIZATION_USERNAME}" --password "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
         xcrun stapler staple "${PRODUCT_NAME}.pkg"
      
 
