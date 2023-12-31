@@ -167,7 +167,6 @@ jobs:
 #        # Set custom icon attribute
 #        SetFile -a C "${{ env.VST3_PATH }}"
 #        SetFile -a C "${{ env.AU_PATH }}"
-#--------------------#--------------------#--------PKG------------#--------------------#--------------------#--------------------
 
     - name: Create Pkg installers and sign
       if: ${{ matrix.name == 'macOS' }}
@@ -180,9 +179,10 @@ jobs:
         pkgbuild --identifier "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" --root ${PATH_TO_VST3} --install-location /Library/Audio/Plug-Ins/VST3 "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
         pkgbuild --identifier "com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg" --root ${PATH_TO_AU} --install-location /Library/Audio/Plug-Ins/Components "com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg"
         mkdir Signed
+        productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --package-path "Signed/" "${PRODUCT_NAME}_NotSign.pkg"
       # productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER }}" "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" "Signed/com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
       #  productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER }}" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "Signed/com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" 
-        productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --package-path "Signed/" "${PRODUCT_NAME}_NotSign.pkg"
+        
 #        productbuild --distribution "path to distribution.xml instructions" --resources <path to single installers(no quotes)> --package-path "Name of product.pkg"
 
 #--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
