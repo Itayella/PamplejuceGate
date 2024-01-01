@@ -182,7 +182,7 @@ jobs:
         productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" "Signed/com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
         productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "Signed/com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg" 
         productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --package-path "Signed/" "${PRODUCT_NAME}_NotSign.pkg"
-        productbuild --distribution "path to distribution.xml instructions" --resources <path to single installers(no quotes)> --package-path "Name of product.pkg"
+      # productbuild --distribution "path to distribution.xml instructions" --resources <path to single installers(no quotes)> --package-path "Name of product.pkg"
 
 #--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
     - name: Create folder for signed installer
