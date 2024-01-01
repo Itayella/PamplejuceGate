@@ -185,36 +185,29 @@ jobs:
         productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "${PRODUCT_NAME}_NotSign.pkg" "${PRODUCT_NAME}.pkg"
 
 #--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
-    - name: Create folder for signed installer
-      if: ${{ matrix.name == 'macOS' }}
-      run: mkdir ${{ env.PRODUCT_NAME }}-installer-signed
-
    
     - name: Notarize and staple installer
       if: ${{ matrix.name == 'macOS' }}
       run: |
+        PRODUCT_NAME="${{ env.PRODUCT_NAME }}"
         xcrun notarytool store-credentials "notarytool-password" --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "${{ secrets.Team_ID }}"
         xcrun notarytool submit "${PRODUCT_NAME}.pkg" --keychain-profile "notarytool-password" --wait
      #   xcrun stapler staple "${PRODUCT_NAME}.pkg"
         
 #xcrun notarytool submit "${PRODUCT_NAME}.pkg" -u "${NOTARIZATION_USERNAME}" --p "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
 
-    - name: Create DMG
-      if: ${{ matrix.name == 'macOS' }}
-      run: hdiutil create Install\ ${{ env.PRODUCT_NAME }}.dmg -fs HFS+ -srcfolder ${{ env.PRODUCT_NAME }}-installer-signed -format UDZO -volname Install\ ${{ env.PRODUCT_NAME }}
-
-    - name: Upload DMG
+    - name: Upload PKG
       if: ${{ matrix.name == 'macOS' }}
       uses: actions/upload-artifact@v2.2.1
       with:
-        name: ${{ env.PRODUCT_NAME }}-installer-mac
-        path: Install\ ${{ env.PRODUCT_NAME }}.dmg
+        name: "${{ env.PRODUCT_NAME }}.pkg"
+        path: Install\ ${{ env.PRODUCT_NAME }}.pkg
 
     - name: Cleanup installer files
       if: ${{ matrix.name == 'macOS' }}
       uses: geekyeggo/delete-artifact@v1
       with:
-        name: ${{ env.PRODUCT_NAME }}-installer-files-mac
+        name: ${{ env.PRODUCT_NAME }}.pkg
 
 #--------------------#--------------------#-----ZIP For Linux---------------#--------------------#--------------------#--------------------
 
