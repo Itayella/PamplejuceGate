@@ -147,8 +147,8 @@ jobs:
       if: ${{ matrix.name == 'macOS' }}
       run: |
         # Each plugin must be code signed
-        codesign --force -s "${{ secrets.DEVELOPER_ID_INSTALLER }}" -v "${{ env.VST3_PATH }}" --deep --strict --options=runtime --timestamp
-        codesign --force -s "${{ secrets.DEVELOPER_ID_INSTALLER }}" -v "${{ env.AU_PATH }}" --deep --strict --options=runtime --timestamp
+        codesign --force -s "${{ secrets.DEVELOPER_ID_APPLICATION}}" -v "${{ env.VST3_PATH }}" --deep --strict --options=runtime --timestamp
+        codesign --force -s "${{ secrets.DEVELOPER_ID_APPLICATION}}" -v "${{ env.AU_PATH }}" --deep --strict --options=runtime --timestamp
 
   #  - name: Add Custom Icons (macOS)
 #      if: ${{ matrix.name == 'macOS' }}
@@ -179,10 +179,9 @@ jobs:
         pkgbuild --identifier "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" --root ${PATH_TO_VST3} --install-location /Library/Audio/Plug-Ins/VST3 "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
         pkgbuild --identifier "com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg" --root ${PATH_TO_AU} --install-location /Library/Audio/Plug-Ins/Components "com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg"
         mkdir Signed
-        productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --package-path "Signed/" "${PRODUCT_NAME}_NotSign.pkg"
-      # productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER }}" "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" "Signed/com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
-      #  productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER }}" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "Signed/com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" 
-        
+        productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" "Signed/com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
+        productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "Signed/com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg" 
+   #     productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --package-path "Signed/" "${PRODUCT_NAME}_NotSign.pkg"
 #        productbuild --distribution "path to distribution.xml instructions" --resources <path to single installers(no quotes)> --package-path "Name of product.pkg"
 
 #--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
@@ -198,7 +197,7 @@ jobs:
         USER_ID="${{ secrets.NOTARIZATION_USERNAME }}"
         NOTARIZATION_USERNAME="${{ secrets.NOTARIZATION_USERNAME }}"
         xcrun notarytool store-credentials "notarytool-password"
-               --apple-id "itay.ella@gmail.com"            
+               --apple-id "itay.ella@gmail.com"           
                --password ${{ secrets.NOTARIZATION_PASSWORD }}
                --team-id "${{ secrets.Team_ID }}" 
         productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER }}" "${PRODUCT_NAME}_NotSign.pkg" "${PRODUCT_NAME}.pkg"
