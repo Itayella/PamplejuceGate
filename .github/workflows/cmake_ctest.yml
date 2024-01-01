@@ -193,10 +193,8 @@ jobs:
     - name: Notarize and staple installer
       if: ${{ matrix.name == 'macOS' }}
       run: |
-        xcrun notarytool store-credentials
-               --apple-id "${{ secrets.NOTARIZATION_USERNAME }}"          
-               --password "${{ secrets.NOTARIZATION_PASSWORD }}"
-               --team-id "${{ secrets.Team_ID }}" 
+        xcrun notarytool store-credentials "notarytool-password" --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "${{ secrets.Team_ID }}"
+
         xcrun notarytool submit "${PRODUCT_NAME}.pkg" --keychain-profile "notarytool-password" --wait
         xcrun stapler staple "${PRODUCT_NAME}.pkg"
         
