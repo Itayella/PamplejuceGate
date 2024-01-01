@@ -167,7 +167,13 @@ jobs:
 #        # Set custom icon attribute
 #        SetFile -a C "${{ env.VST3_PATH }}"
 #        SetFile -a C "${{ env.AU_PATH }}"
-
+    - name: Import Certificates (macOS)
+      uses: apple-actions/import-codesign-certs@v2 # only exists as a tag right now
+      if: ${{ matrix.name == 'macOS' }}
+      with:
+        p12-file-base64: ${{ secrets.DEV_ID_INSTALLER_CERT }}
+        p12-password: ${{ secrets.DEV_ID_INSTALLER_PASSWORD }}
+        
     - name: Create Pkg installers and sign
       if: ${{ matrix.name == 'macOS' }}
       shell: bash
