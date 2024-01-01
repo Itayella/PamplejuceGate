@@ -182,6 +182,7 @@ jobs:
         productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" "Signed/com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
         productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "Signed/com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg" 
         productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --package-path "Signed/" "${PRODUCT_NAME}_NotSign.pkg"
+        productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "${PRODUCT_NAME}_NotSign.pkg" "${PRODUCT_NAME}.pkg"
 
 #--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
     - name: Create folder for signed installer
@@ -199,8 +200,7 @@ jobs:
                --apple-id "${{ secrets.NOTARIZATION_USERNAME }}"          
                --password "${{ secrets.NOTARIZATION_PASSWORD }}"
                --team-id "${{ secrets.Team_ID }}" 
-        productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER }}" "${PRODUCT_NAME}_NotSign.pkg" "${PRODUCT_NAME}.pkg"
-        xcrun notarytool submit "${PRODUCT_NAME}_NotSign.pkg" --keychain-profile "notarytool-password" --wait
+        xcrun notarytool submit "${PRODUCT_NAME}.pkg" --keychain-profile "notarytool-password" --wait
         xcrun stapler staple "${PRODUCT_NAME}.pkg"
         
 #xcrun notarytool submit "${PRODUCT_NAME}.pkg" -u "${NOTARIZATION_USERNAME}" --p "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
