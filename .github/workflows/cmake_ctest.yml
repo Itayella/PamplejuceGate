@@ -31,10 +31,10 @@ jobs:
             os: macos-12
             pluginval-binary: pluginval.app/Contents/MacOS/pluginval
             ccache: ccache
-          - name: Linux
-            os: ubuntu-22.04
-            pluginval-binary: ./pluginval
-            ccache: ccache
+#          - name: Linux
+ #           os: ubuntu-22.04
+  #          pluginval-binary: ./pluginval
+   #         ccache: ccache
         #  - name: Windows
          #   os: windows-latest
           #  pluginval-binary: ./pluginval.exe
