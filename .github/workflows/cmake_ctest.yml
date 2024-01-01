@@ -196,7 +196,7 @@ jobs:
         PRODUCT_NAME="${{ env.PRODUCT_NAME }}"
         USER_ID="${{ secrets.NOTARIZATION_USERNAME }}"
         NOTARIZATION_USERNAME="${{ secrets.NOTARIZATION_USERNAME }}"
-        xcrun notarytool store-credentials "notarytool-password"
+        xcrun notarytool store-credentials
                --apple-id "${{ secrets.NOTARIZATION_USERNAME }}"          
                --password "${{ secrets.NOTARIZATION_PASSWORD }}"
                --team-id "${{ secrets.Team_ID }}" 
