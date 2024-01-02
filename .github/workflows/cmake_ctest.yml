@@ -192,7 +192,7 @@ jobs:
         PRODUCT_NAME="${{ env.PRODUCT_NAME }}"
         xcrun notarytool store-credentials "notarytool-password" --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "${{ secrets.Team_ID }}"
         xcrun notarytool submit "${PRODUCT_NAME}.pkg" --keychain-profile "notarytool-password" --wait
-     #   xcrun stapler staple "${PRODUCT_NAME}.pkg"
+        xcrun stapler staple "${PRODUCT_NAME}.pkg"
         
 #xcrun notarytool submit "${PRODUCT_NAME}.pkg" -u "${NOTARIZATION_USERNAME}" --p "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
 
@@ -201,7 +201,7 @@ jobs:
       uses: actions/upload-artifact@v2.2.1
       with:
         name: "${{ env.PRODUCT_NAME }}.pkg"
-        path: ${{ env.PRODUCT_NAME }}.pkg
+        path: '${{ env.ARTIFACTS_PATH }}/${{ env.PRODUCT_NAME }}.pkg'
 
     - name: Cleanup installer files
       if: ${{ matrix.name == 'macOS' }}
@@ -239,12 +239,12 @@ jobs:
         name: ${{ env.ARTIFACT_NAME }}.zip
         path: '${{ env.ARTIFACTS_PATH }}/${{ env.ARTIFACT_NAME }}.zip'
 
-    - name: Upload DMG (MacOS)
-      if: ${{ matrix.name == 'macOS' }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ env.ARTIFACT_NAME }}.dmg
-        path: packaging/${{ env.ARTIFACT_NAME }}.dmg
+#    - name: Upload DMG (MacOS)
+ #     if: ${{ matrix.name == 'macOS' }}
+  #    uses: actions/upload-artifact@v3
+   #   with:
+    #    name: ${{ env.ARTIFACT_NAME }}.dmg
+     #   path: packaging/${{ env.ARTIFACT_NAME }}.dmg
 
   release:
     if: contains(github.ref, 'tags/v')
