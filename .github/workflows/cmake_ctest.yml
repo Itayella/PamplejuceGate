@@ -201,8 +201,8 @@ jobs:
       if: ${{ matrix.name == 'macOS' }}
       uses: actions/upload-artifact@v2.2.1
       with:
-        name: "${{ env.ARTIFACT_NAME }}.pkg"
-        path: '${{ env.ARTIFACTS_PATH }}/${{ env.ARTIFACT_NAME }}.pkg'
+        name: "${{ env.PRODUCT_NAME }}.pkg"
+        path: '${{ env.ARTIFACTS_PATH }}/${{ env.PRODUCT_NAME }}.pkg'
 
     - name: Cleanup installer files
       if: ${{ matrix.name == 'macOS' }}
