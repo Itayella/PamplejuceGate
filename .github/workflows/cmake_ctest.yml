@@ -182,7 +182,8 @@ jobs:
         productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg" "Signed/com.ShizanaPlugins.${PRODUCT_NAME}.vst3.pkg"
         productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "com.ShizanaPlugins.${{ env.PRODUCT_NAME }}.component.pkg" "Signed/com.ShizanaPlugins.${PRODUCT_NAME}.component.pkg" 
         productbuild --distribution "packaging/Pkg/Signed/distribution.xml" --package-path "Signed/" "${PRODUCT_NAME}_NotSign.pkg"
-        productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "${PRODUCT_NAME}_NotSign.pkg" "${PRODUCT_NAME}.pkg"
+        productsign --sign "${{ secrets.DEVELOPER_ID_INSTALLER}}" "${PRODUCT_NAME}_NotSign.pkg" "${{ env.ARTIFACT_NAME}}.pkg"
+        pkgutil --check-signature "${{ env.ARTIFACT_NAME}}.pkg"
 
 #--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
    
@@ -193,21 +194,21 @@ jobs:
         xcrun notarytool store-credentials "notarytool-password" --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "${{ secrets.Team_ID }}"
         xcrun notarytool submit "${PRODUCT_NAME}.pkg" --keychain-profile "notarytool-password" --wait
         xcrun stapler staple "${PRODUCT_NAME}.pkg"
-        xcrun notarytool log 93e58a1f-fd80-475e-9c1b-ae6b6a4a50f8
+  #     xcrun notarytool log 93e58a1f-fd80-475e-9c1b-ae6b6a4a50f8
 #xcrun notarytool submit "${PRODUCT_NAME}.pkg" -u "${NOTARIZATION_USERNAME}" --p "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
 
     - name: Upload PKG
       if: ${{ matrix.name == 'macOS' }}
       uses: actions/upload-artifact@v2.2.1
       with:
-        name: "${{ env.PRODUCT_NAME }}.pkg"
-        path: '${{ env.ARTIFACTS_PATH }}/${{ env.PRODUCT_NAME }}.pkg'
+        name: "${{ env.ARTIFACT_NAME }}.pkg"
+        path: '${{ env.ARTIFACTS_PATH }}/${{ env.ARTIFACT_NAME }}.pkg'
 
     - name: Cleanup installer files
       if: ${{ matrix.name == 'macOS' }}
       uses: geekyeggo/delete-artifact@v1
       with:
-        name: ${{ env.PRODUCT_NAME }}.pkg
+        name: ${{ env.ARTIFACT_NAME }}.pkg
 
 #--------------------#--------------------#-----ZIP For Linux---------------#--------------------#--------------------#--------------------
 
