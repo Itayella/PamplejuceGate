@@ -194,8 +194,8 @@ jobs:
       if: ${{ matrix.name == 'macOS' }}
       run: |
         PRODUCT_NAME="${{ env.PRODUCT_NAME}}"
-        xcrun notarytool store-credentials "notarytool-password" --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "${{ secrets.Team_ID }}"
-        xcrun notarytool submit "${{ env.PRODUCT_NAME}}.pkg" --keychain-profile "notarytool-password" --wait
+        xcrun notarytool store-credentials "notarytool-Itay" --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "${{ secrets.Team_ID }}"
+        xcrun notarytool submit "${{ env.PRODUCT_NAME}}.pkg" --keychain-profile "notarytool-Itay" --wait
        # xcrun stapler staple "${PRODUCT_NAME}.pkg"
   #     xcrun notarytool log 93e58a1f-fd80-475e-9c1b-ae6b6a4a50f8
         #xcrun notarytool submit "${PRODUCT_NAME}.pkg" -u "${NOTARIZATION_USERNAME}" --p "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
@@ -212,7 +212,7 @@ jobs:
       if: ${{ matrix.name == 'macOS' }}
       uses: geekyeggo/delete-artifact@v1
       with:
-        name: ${{ env.ARTIFACT_NAME }}.pkg
+        name: ${{ env.PRODUCT_NAME }}.pkg
 
 #--------------------#--------------------#-----ZIP For Linux---------------#--------------------#--------------------#--------------------
 
