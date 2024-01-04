@@ -190,23 +190,23 @@ jobs:
 
 #--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
    
-    - name: Notarize and staple installer
-      if: ${{ matrix.name == 'macOS' }}
-      run: |
-        PRODUCT_NAME="${{ env.PRODUCT_NAME}}"
-        xcrun notarytool store-credentials "notarytool-Itay" --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "${{ secrets.Team_ID }}"
-        xcrun notarytool submit "${{ env.PRODUCT_NAME}}.pkg" --keychain-profile "notarytool-Itay" --wait
+#    - name: Notarize and staple installer
+ #     if: ${{ matrix.name == 'macOS' }}
+  #    run: |
+   #     PRODUCT_NAME="${{ env.PRODUCT_NAME}}"
+    #    xcrun notarytool store-credentials "notarytool-Itay" --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "${{ secrets.Team_ID }}"
+     #   xcrun notarytool submit "${{ env.PRODUCT_NAME}}.pkg" --keychain-profile "notarytool-Itay" --wait
        # xcrun stapler staple "${PRODUCT_NAME}.pkg"
   #     xcrun notarytool log 93e58a1f-fd80-475e-9c1b-ae6b6a4a50f8
         #xcrun notarytool submit "${PRODUCT_NAME}.pkg" -u "${NOTARIZATION_USERNAME}" --p "${NOTARIZATION_PASSWORD}" --team-id "${TEAM_ID}" --wait 
 
     - name: Upload PKG
       if: ${{ matrix.name == 'macOS' }}
-      uses: actions/upload-artifact@v2.2.1
-      #uses: actions/upload-artifact@v4
+      #uses: actions/upload-artifact@v2.2.1
+      uses: actions/upload-artifact@v4
       with:
         name: "${{ env.PRODUCT_NAME }}.pkg"
-        path: '${{ env.ARTIFACTS_PATH }}/Signed/${{ env.PRODUCT_NAME }}.pkg'
+        path: 'Signed/${{ env.PRODUCT_NAME }}.pkg'
 
     - name: Cleanup installer files
       if: ${{ matrix.name == 'macOS' }}
