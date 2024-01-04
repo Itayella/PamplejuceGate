@@ -202,11 +202,11 @@ jobs:
 
     - name: Upload PKG
       if: ${{ matrix.name == 'macOS' }}
-      #uses: actions/upload-artifact@v2.2.1
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v2.2.1
+      #uses: actions/upload-artifact@v4
       with:
         name: "${{ env.PRODUCT_NAME }}.pkg"
-        path: '${{ env.ARTIFACTS_PATH }}/${{ env.PRODUCT_NAME }}.pkg'
+        path: '${{ env.ARTIFACTS_PATH }}/Signed/${{ env.PRODUCT_NAME }}.pkg'
 
     - name: Cleanup installer files
       if: ${{ matrix.name == 'macOS' }}

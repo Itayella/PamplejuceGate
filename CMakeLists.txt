@@ -149,7 +149,7 @@ target_link_libraries("${PROJECT_NAME}" PRIVATE SharedCode)
 include(PamplejuceIPP)
 
 # Everything related to the tests target
-#include(Tests)
+include(Tests)
 
 # A separate target keeps the Tests target fast!
 #include(Benchmarks)
