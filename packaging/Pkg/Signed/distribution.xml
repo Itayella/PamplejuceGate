@@ -6,7 +6,6 @@
     <choices-outline>
 	<line choice="com.ShizanaPlugins.Gate.vst3.pkg"/>
 	<line choice="com.ShizanaPlugins.Gate.component.pkg"/>
-	<line choice="com.ShizanaPlugins.Gate.aax.pkg"/>
     </choices-outline>
      
     <choice id="com.ShizanaPlugins.Gate.vst3.pkg" visible="1" title="VST3" description="VST3">
