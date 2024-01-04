@@ -45,6 +45,9 @@ jobs:
     - name: Set up Clang
       if: ${{ matrix.name != 'macOS' }}
       uses: egor-tensin/setup-clang@v1
+      with:
+        version: latest
+        platform: x64
 
     # This also starts up our "fake" display Xvfb, needed for pluginval
     - name: Install JUCE's Linux Deps
@@ -199,7 +202,8 @@ jobs:
 
     - name: Upload PKG
       if: ${{ matrix.name == 'macOS' }}
-      uses: actions/upload-artifact@v2.2.1
+      #uses: actions/upload-artifact@v2.2.1
+      uses: actions/upload-artifact@v4
       with:
         name: "${{ env.PRODUCT_NAME }}.pkg"
         path: '${{ env.ARTIFACTS_PATH }}/${{ env.PRODUCT_NAME }}.pkg'
