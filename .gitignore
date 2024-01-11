@@ -28,5 +28,8 @@ cmake-build-debug
 cmake-build-release
 cmake-build-relwithdebinfo
 packaging/Output/*
+
+#For Reference:
+MakeInstaller.sh
 Github Actions backup
 _______Try1___CMakeLists.txt
