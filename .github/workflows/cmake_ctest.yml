@@ -196,7 +196,7 @@ jobs:
         target: "Signed/${{ env.PRODUCT_NAME}}.pkg"
         credentials: "${{ secrets.DRIVE_CREDENTIALS }}"
         parent_folder_id: "${{ secrets.DRIVE_FOLDER_ID }}"
-        child_folder: "${{ env.PRODUCT_NAME}}_Build_1"
+        child_folder: "${{ env.PRODUCT_NAME}}"
 
     - name: Notarize and staple installer
       if: ${{ matrix.name == 'macOS' }}
