@@ -273,13 +273,13 @@ jobs:
           */*.pkg
 
     - name: Upload Artifacts to Google Drive
-        uses: Jodebu/upload-to-drive@master
-        with:
-          name: ${{ matrix.targetPlatform }}
-          target: |
-            */*.exe
-            */*.zip
-            */*.dmg
-            */*.pkg
-          credentials: "${{ secrets.DRIVE_CREDENTIALS }}"
-          folder: "${{ secrets.DRIVE_FOLDER_ID }}"
+      uses: Jodebu/upload-to-drive@master
+      with:
+        name: ${{ matrix.targetPlatform }}
+        target: |
+          */*.exe
+          */*.zip
+          */*.dmg
+          */*.pkg
+        credentials: "${{ secrets.DRIVE_CREDENTIALS }}"
+        folder: "${{ secrets.DRIVE_FOLDER_ID }}"
