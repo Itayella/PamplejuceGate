@@ -193,7 +193,7 @@ jobs:
       if: ${{ matrix.name == 'macOS' }}   
       uses: willo32/google-drive-upload-action@v1
       with: 
-        target: "Signed/" "${{ env.PRODUCT_NAME}}.pkg"
+        target: "Signed/${{ env.PRODUCT_NAME}}.pkg"
         credentials: "${{ secrets.DRIVE_CREDENTIALS }}"
         parent_folder_id: "${{ secrets.DRIVE_FOLDER_ID }}"
         child_folder: "${{ env.PRODUCT_NAME}}_Build_1"
