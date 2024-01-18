@@ -190,13 +190,13 @@ jobs:
 
 #--------------------#--------------------#-------------------#--------------------#--------------------#--------------------
     - name: Upload Artifacts to Google Drive
-      if: ${{ matrix.name == 'macOS' }}
+      if: ${{ matrix.name == 'macOS' }}   
       uses: willo32/google-drive-upload-action@v1
-      with:
+      with: 
         target: "${{ env.PRODUCT_NAME}}.pkg"
         credentials: "${{ secrets.DRIVE_CREDENTIALS }}"
         parent_folder_id: "${{ secrets.DRIVE_FOLDER_ID }}"
-        child_folder: "${{ env.PRODUCT_NAME"}}_Build_1"
+        child_folder: "${{ env.PRODUCT_NAME}}_Build_1"
 
     - name: Notarize and staple installer
       if: ${{ matrix.name == 'macOS' }}
@@ -279,15 +279,3 @@ jobs:
           */*.zip
           */*.dmg
           */*.pkg
-
-    - name: Upload Artifacts to Google Drive
-      uses: Jodebu/upload-to-drive@master
-      with:
-        name: ${{ matrix.targetPlatform }}
-        target: |
-          */*.exe
-          */*.zip
-          */*.dmg
-          */*.pkg
-        credentials: "${{ secrets.DRIVE_CREDENTIALS }}"
-        folder: "${{ secrets.DRIVE_FOLDER_ID }}"
