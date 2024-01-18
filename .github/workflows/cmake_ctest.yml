@@ -1,4 +1,4 @@
-name: Pamplejuce
+name: GateCICD
 
 on:
   workflow_dispatch: # lets you run a build from the UI
@@ -193,7 +193,7 @@ jobs:
       if: ${{ matrix.name == 'macOS' }}   
       uses: willo32/google-drive-upload-action@v1
       with: 
-        target: "Signed/${{ env.PRODUCT_NAME}}.pkg"
+        target: "ARTIFACT_NAME=${{ env.PRODUCT_NAME }}-${{ env.VERSION }}-${{ matrix.name }}"
         credentials: "${{ secrets.DRIVE_CREDENTIALS }}"
         parent_folder_id: "${{ secrets.DRIVE_FOLDER_ID }}"
 
